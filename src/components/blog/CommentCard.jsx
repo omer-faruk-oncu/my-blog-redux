@@ -1,11 +1,19 @@
-import React from 'react'
+import * as React from "react";
+import { Card, CardContent, Typography } from "@mui/material";
 
-const CommentCard = () => {
+const CommentCard = ({ comment }) => {
   return (
-    <div>
-      CommentCard
-    </div>
-  )
-}
+    <Card>
+      <CardContent>
+        <Typography variant="body1" component="p">
+          {comment.text}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          {comment.username} - {new Date(comment.createdAt).toLocaleDateString("tr-TR")}
+        </Typography>
+      </CardContent>
+    </Card>
+  );
+};
 
-export default CommentCard
+export default CommentCard;

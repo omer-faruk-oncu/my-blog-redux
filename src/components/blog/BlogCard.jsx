@@ -1,24 +1,24 @@
 import * as React from "react";
 import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import EditIcon from "@mui/icons-material/Edit";
 import { btnStyle } from "../../styles/globalStyles";
 import { Button, Stack } from "@mui/material";
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import CastIcon from '@mui/icons-material/Cast';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-//import useStockRequest from "../services/useStockRequest";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import { useNavigate } from "react-router";
 
-export default function BlogCard({ blog, handleOpen }) {
-  //   const btnStyle = {
-  //     "&:hover": { color: "red", cursor: "pointer" },
-  //   }
-  //const { address, _id, name, phone, image } = firm
-  //const { deleteStock } = useStockRequest()
+export default function BlogCard({ blog }) {
+
+  const navigate = useNavigate();
+  const handleReadMore = () => {
+    navigate(`/detail/${blog._id}`);
+  };
+
+  //const { getBlog} = useBlogCalls();
+
   return (
     <Card
       sx={{
@@ -55,24 +55,28 @@ export default function BlogCard({ blog, handleOpen }) {
         >
           {blog?.content}
         </Typography>
-        <Typography
-          variant="body2"
-          color="text.secondary"
-          mt={2}
-        >
-          Published Date : 
+        <Typography variant="body2" color="text.secondary" mt={2}>
+          Published Date :
           {new Date(blog?.createdAt).toLocaleDateString("tr-TR")}
         </Typography>
-        
-        <Stack mt={3} display="flex" flexDirection="row" gap="30px" textAlign="center">
 
+        <Stack
+          mt={3}
+          direction="row"
+          gap={3}
+          justifyContent="center"
+          alignItems="center"
+          color="text.secondary"
+        >
           <FavoriteBorderIcon sx={btnStyle} />
-          <CastIcon sx={btnStyle} />
+          <Stack direction="row" alignItems="center">
+            <ChatBubbleOutlineIcon
+              sx={btnStyle}
+            />
+        
+          </Stack>
           <VisibilityIcon sx={btnStyle} />
-          <Button sx={{border:"1px solid"}}>
-            Read More
-          </Button>
-
+          <Button sx={{ border: "1px solid" }} onClick={handleReadMore}>Read More</Button>
         </Stack>
       </CardContent>
       {/* <CardActions>
