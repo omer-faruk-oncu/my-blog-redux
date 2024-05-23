@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
+import { useSelector } from "react-redux";
 
 import TableSkeleton, {
   CardSkeleton,
@@ -10,15 +10,19 @@ import TableSkeleton, {
 import useBlogCalls from "../hooks/useBlogCalls";
 import BlogCard from "../components/blog/BlogCard";
 
-const Dashboard = () => {
-  const { getBlog } = useBlogCalls();
+const MyBlog = () => {
+  const { getUserBlogs } = useBlogCalls();
   const { blogs, loading, error } = useSelector((state) => state.blog);
+   const { user } = useSelector((state) => state.auth);
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
 
   useEffect(() => {
-    getBlog("blogs");
-  }, []);
+    if (user) {
+      getUserBlogs(); 
+    }
+  }, [user]); 
+
 
   return (
     <div>
@@ -43,4 +47,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default MyBlog;

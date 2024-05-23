@@ -8,18 +8,26 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 //import { useSelector } from "react-redux";
 import useAuthCalls from "../hooks/useAuthCalls";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-
+import useBlogCalls from "../hooks/useBlogCalls";
 
 export default function NewBlog() {
-
-  const { categories, status } = useSelector((state) => state.blog);
-  const initialState = { title: "", image: "", categoryId: "", isPublished: false, content:""};
+  const { categories } = useSelector((state) => state.blog);
+  const initialState = {
+    title: "",
+    image: "",
+    categoryId: "",
+    isPublished: false,
+    content: "",
+  };
 
   const [info, setInfo] = useState(initialState);
+  const { postBlog, getBlog } = useBlogCalls();
 
-  const {postBlog} = useAuthCalls()
+  useEffect(() => {
+    getBlog("categories"); 
+  }, []);
 
   const handleChange = (e) => {
     setInfo({ ...info, [e.target.name]: e.target.value });
@@ -28,7 +36,7 @@ export default function NewBlog() {
   const handleSubmit = (e) => {
     e.preventDefault();
     postBlog("blogs", info);
-    //handleClose();
+    setInfo(initialState)
   };
 
   return (
@@ -89,11 +97,10 @@ export default function NewBlog() {
               onChange={handleChange}
               required
             >
-              {status.map((item) => (
-                <MenuItem key={item._id} value={item._id}>
-                  {item.name}
-                </MenuItem>
-              ))}
+              <MenuItem >Please Choose...</MenuItem>
+              <MenuItem value={true}>Published</MenuItem>
+              <MenuItem value={false}>Draft</MenuItem>
+
             </Select>
           </FormControl>
 

@@ -14,12 +14,12 @@ import MenuItem from "@mui/material/MenuItem";
 import logo from "../assets/blog-image.png";
 import useAuthCalls from "../hooks/useAuthCalls";
 import { useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const pages = [
   {
     title: "DASHBOARD",
-    path: "/blog",
+    path: "/",
   },
   {
     title: "NEW BLOG",
@@ -31,12 +31,24 @@ const pages = [
   },
 ];
 
+const settings = [
+  {
+    title: "My Blogs",
+    path: "/myblog",
+  },
+  {
+    title: "Profile",
+    path: "/profile",
+  },
+];
+
 function Navbar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
   const { logout } = useAuthCalls();
   const { user } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -51,6 +63,12 @@ function Navbar() {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+
+  const handleLogout = () => {
+    logout();
+    handleCloseUserMenu();
+    navigate("/");
   };
 
   return (
@@ -106,7 +124,10 @@ function Navbar() {
             >
               {pages.map((page) => (
                 <MenuItem key={page.title} onClick={handleCloseNavMenu}>
-                  <NavLink to={page.path} style={{ textDecoration: 'none', color: 'inherit' }}>
+                  <NavLink
+                    to={page.path}
+                    style={{ textDecoration: "none", color: "inherit" }}
+                  >
                     <Typography textAlign="center">{page.title}</Typography>
                   </NavLink>
                 </MenuItem>
@@ -168,11 +189,25 @@ function Navbar() {
               onClose={handleCloseUserMenu}
             >
               {user ? (
-                <Button color="inherit" onClick={logout}>
-                  Logout
-                </Button>
+                <>
+                  {settings.map((item) => (
+                    <MenuItem key={item.title} onClick={handleCloseUserMenu}>
+                      <NavLink
+                        to={item.path}
+                        style={{ textDecoration: "none", color: "inherit" }}
+                      >
+                        <Typography textAlign="center">{item.title}</Typography>
+                      </NavLink>
+                    </MenuItem>
+                  ))}
+                  <MenuItem onClick={handleLogout}>
+                    <Typography textAlign="center">Logout</Typography>
+                  </MenuItem>
+                </>
               ) : (
-                <Button color="inherit">Login</Button>
+                <Button color="inherit" component={NavLink} to="/login">
+                  Login
+                </Button>
               )}
             </Menu>
           </Box>

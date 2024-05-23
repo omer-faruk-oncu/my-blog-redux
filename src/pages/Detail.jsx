@@ -19,9 +19,9 @@ const Detail = () => {
   const { getBlog, getBlogComments, addComment } = useBlogCalls();
 
   React.useEffect(() => {
-    if (!blog) {
-      getBlog();
-    }
+    // if (!blog) {
+    //   getBlog();
+    // }
     if (id) {
       getBlogComments(id);
     }

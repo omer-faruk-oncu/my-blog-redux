@@ -9,15 +9,15 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { useNavigate } from "react-router";
+import { useSelector } from "react-redux";
 
 export default function BlogCard({ blog }) {
-
   const navigate = useNavigate();
-  const handleReadMore = () => {
-    navigate(`/detail/${blog._id}`);
-  };
 
-  //const { getBlog} = useBlogCalls();
+  const { user } = useSelector((state) => state.auth);
+  const handleReadMore = () => {
+    user ? navigate(`/detail/${blog._id}`) : navigate("/login");
+  };
 
   return (
     <Card
@@ -70,25 +70,14 @@ export default function BlogCard({ blog }) {
         >
           <FavoriteBorderIcon sx={btnStyle} />
           <Stack direction="row" alignItems="center">
-            <ChatBubbleOutlineIcon
-              sx={btnStyle}
-            />
-        
+            <ChatBubbleOutlineIcon sx={btnStyle} />
           </Stack>
           <VisibilityIcon sx={btnStyle} />
-          <Button sx={{ border: "1px solid" }} onClick={handleReadMore}>Read More</Button>
+          <Button sx={{ border: "1px solid" }} onClick={handleReadMore}>
+            Read More
+          </Button>
         </Stack>
       </CardContent>
-      {/* <CardActions>
-        <DeleteOutlineIcon
-          sx={btnStyle}
-          onClick={() => deleteStock("firms", firm?._id)}
-        />
-        <EditIcon
-          sx={btnStyle}
-          onClick={() => {handleOpen()}}
-        />
-      </CardActions> */}
     </Card>
   );
 }

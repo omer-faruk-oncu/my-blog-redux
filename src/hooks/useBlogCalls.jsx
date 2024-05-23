@@ -1,13 +1,19 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import useAxios from "./useAxios";
-import { addCommentSuccess, fetchFail, fetchStart, getBlogSuccess, getCommentsSuccess } from "../features/blogSlice";
+import {
+  addCommentSuccess,
+  fetchFail,
+  fetchStart,
+  getBlogSuccess,
+  getCommentsSuccess,
+} from "../features/blogSlice";
 import { toastErrorNotify, toastSuccessNotify } from "../helper/ToastNotify";
 import { useState } from "react";
 
 const useBlogCalls = () => {
   const { axiosToken } = useAxios();
   const dispatch = useDispatch();
-  const [commentsCount, setCommentsCount] = useState(0);
+  const { user } = useSelector((state) => state.auth);
 
   const getBlog = async (path = "blog") => {
     dispatch(fetchStart());
@@ -44,7 +50,6 @@ const useBlogCalls = () => {
       console.log(error);
     }
   };
-
 
   const deleteBlog = async (path = "blogs", id) => {
     dispatch(fetchStart());
@@ -85,8 +90,27 @@ const useBlogCalls = () => {
     }
   };
 
- 
-  return { getBlog, deleteBlog, postBlog, putBlog,getBlogComments, addComment  };
+  const getUserBlogs = async () => {
+    dispatch(fetchStart());
+    try {
+      const { data } = await axiosToken.get(`/blogs?author=${user.id}`); 
+      dispatch(getBlogSuccess({ path: "blogs", stockData: data.data }));
+    } catch (error) {
+      toastErrorNotify(`Kullanıcı blogları çekilememiştir.`);
+      dispatch(fetchFail());
+      console.error(error);
+    }
+  };
+
+  return {
+    getBlog,
+    deleteBlog,
+    postBlog,
+    putBlog,
+    getBlogComments,
+    addComment,
+    getUserBlogs
+  };
 };
 
 export default useBlogCalls;
