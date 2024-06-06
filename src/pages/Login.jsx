@@ -8,7 +8,6 @@ import { Link } from "react-router-dom";
 import Box from "@mui/material/Box";
 import { Formik } from "formik";
 import LoginForm, {loginSchema} from "../components/auth/LoginForm"
-//import { login } from "../hooks/useAuthCalls"
 import useAuthCalls from "../hooks/useAuthCalls";
 const Login = () => {
   const { login } = useAuthCalls();

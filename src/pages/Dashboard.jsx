@@ -13,8 +13,8 @@ import BlogCard from "../components/blog/BlogCard";
 const Dashboard = () => {
   const { getBlog } = useBlogCalls();
   const { blogs, loading, error } = useSelector((state) => state.blog);
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
+  // const [open, setOpen] = useState(false);
+  // const handleOpen = () => setOpen(true);
 
   useEffect(() => {
     getBlog("blogs");
@@ -34,7 +34,7 @@ const Dashboard = () => {
         <Grid container gap={2} mt={3} justifyContent={"center"}>
           {blogs.map((blog) => (
             <Grid item key={blog._id}>
-              <BlogCard blog={blog} handleOpen={handleOpen} />
+              <BlogCard blog={blog}/>
             </Grid>
           ))}
         </Grid>

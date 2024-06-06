@@ -15,7 +15,7 @@ const Register = () => {
   const { register } = useAuthCalls()
 
   return (
-    <Container maxWidth="lg">
+    <Container maxWidth="lg" sx={{ pb: 8 }}>
       <Grid
         container
         justifyContent="center"
@@ -73,15 +73,15 @@ const Register = () => {
           ></Formik>
 
           <Box sx={{ textAlign: "center", mt: 2 }}>
-            <Link to="/">Do you have an account?</Link>
+            <Link to="/login">Do you have an account?</Link>
           </Box>
         </Grid>
 
-        <Grid item xs={0} sm={7} md={6}>
+        {/* <Grid item xs={0} sm={7} md={6}>
           <Container>
             <img src={image} alt="" />
           </Container>
-        </Grid>
+        </Grid> */}
       </Grid>
     </Container>
   )

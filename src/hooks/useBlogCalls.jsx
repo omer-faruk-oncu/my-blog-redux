@@ -8,19 +8,20 @@ import {
   getCommentsSuccess,
 } from "../features/blogSlice";
 import { toastErrorNotify, toastSuccessNotify } from "../helper/ToastNotify";
-import { useState } from "react";
 
 const useBlogCalls = () => {
   const { axiosToken } = useAxios();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
+  const { blogs } = useSelector((state) => state.blog);
 
-  const getBlog = async (path = "blog") => {
+  const getBlog = async (path = "blogs") => {
     dispatch(fetchStart());
     try {
-      const { data } = await axiosToken(`/${path}`);
-      const stockData = data.data;
-      dispatch(getBlogSuccess({ stockData, path }));
+      const { data } = await axiosToken.get(`/${path}?page=1&limit=50`);
+      const blogData = data.data;
+      console.log("fetched blogs:", blogData);
+      dispatch(getBlogSuccess({ blogData, path }));
     } catch (error) {
       toastErrorNotify(`${path} verileri çekilememiştir.`);
       dispatch(fetchFail());
@@ -28,28 +29,61 @@ const useBlogCalls = () => {
     }
   };
 
-  const getBlogComments = async (blogId) => {
+  const getUserBlogs = async (path = "blogs") => {
     dispatch(fetchStart());
     try {
-      const { data } = await axiosToken(`/comments?blogId=${blogId}`);
-      dispatch(getCommentsSuccess({ blogId, comments: data.comments }));
+      const { data } = await axiosToken.get(`/${path}?author=${user._id}`);
+      const blogData = data.data;
+      console.log("fetched blogs:", blogData);
+      dispatch(getBlogSuccess({ blogData, path }));
+    } catch (error) {
+      toastErrorNotify(`Kullanıcı blogları çekilememiştir.`);
+      dispatch(fetchFail());
+      console.error(error);
+    }
+  };
+
+  const postBlog = async (path = "blogs", info) => {
+    dispatch(fetchStart());
+    try {
+      console.log("post info", info);
+      const res = await axiosToken.post(`/${path}/`, info);
+      getBlog(path);
+      console.log("post blog res:", res);
+      toastSuccessNotify(`${path} basariliyla eklenmiştir.`);
     } catch (error) {
       dispatch(fetchFail());
+      toastErrorNotify(`${path} eklenememiştir.`);
       console.log(error);
     }
   };
 
-  const addComment = async (blogId, text) => {
-    try {
-      const { data } = await axiosToken.post(`/comments`, { blogId, text });
-      dispatch(addCommentSuccess({ blogId, comment: data.comment }));
-      toastSuccessNotify("Comment added successfully.");
-    } catch (error) {
-      dispatch(fetchFail());
-      toastErrorNotify("Failed to add comment.");
-      console.log(error);
-    }
-  };
+  // const getBlogComments = async (blogId) => {
+  //   dispatch(fetchStart());
+  //   try {
+  //     const { data } = await axiosToken.get(`/comments?blogId=${blogId}`);
+  //     dispatch(getCommentsSuccess({ blogId, comments: data.comments }));
+  //   } catch (error) {
+  //     dispatch(fetchFail());
+  //     console.log(error);
+  //   }
+  // };
+
+  // const addComment = async (blogId, comment) => {
+  //   dispatch(fetchStart()); // Yorum ekleme işlemi başlatıldığında yüklenme durumu
+  //   try {
+  //     const { data } = await axiosToken.post(`/comments/`, { blogId, comment }); // Backend endpoint ve body formatı
+  //     dispatch(addCommentSuccess({ blogId, comment: data.comment })); // Yorum başarılı bir şekilde eklendiğinde Redux state güncellenir
+  //     toastSuccessNotify("Comment added successfully.");
+  //   } catch (error) {
+  //     console.error(
+  //       "Error adding comment:",
+  //       error.response?.data || error.message
+  //     ); // Hata mesajlarını daha iyi görüntülemek için console log ekleniyor
+  //     dispatch(fetchFail());
+  //     toastErrorNotify("Failed to add comment.");
+  //   }
+  // };
 
   const deleteBlog = async (path = "blogs", id) => {
     dispatch(fetchStart());
@@ -60,19 +94,6 @@ const useBlogCalls = () => {
     } catch (error) {
       toastErrorNotify(`${path} silinememiştir.`);
       dispatch(fetchFail());
-      console.log(error);
-    }
-  };
-
-  const postBlog = async (path = "blogs", info) => {
-    dispatch(fetchStart());
-    try {
-      await axiosToken.post(`/${path}/`, info);
-      getBlog(path);
-      toastSuccessNotify(`${path} basariliyla eklenmiştir.`);
-    } catch (error) {
-      dispatch(fetchFail());
-      toastErrorNotify(`${path} eklenememiştir.`);
       console.log(error);
     }
   };
@@ -90,26 +111,14 @@ const useBlogCalls = () => {
     }
   };
 
-  const getUserBlogs = async () => {
-    dispatch(fetchStart());
-    try {
-      const { data } = await axiosToken.get(`/blogs?author=${user.id}`); 
-      dispatch(getBlogSuccess({ path: "blogs", stockData: data.data }));
-    } catch (error) {
-      toastErrorNotify(`Kullanıcı blogları çekilememiştir.`);
-      dispatch(fetchFail());
-      console.error(error);
-    }
-  };
-
   return {
     getBlog,
     deleteBlog,
     postBlog,
     putBlog,
-    getBlogComments,
-    addComment,
-    getUserBlogs
+    //getBlogComments,
+    //addComment,
+    getUserBlogs,
   };
 };
 

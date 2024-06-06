@@ -1,61 +1,55 @@
-
-import { toastErrorNotify, toastSuccessNotify } from "../helper/ToastNotify"
+import { toastErrorNotify, toastSuccessNotify } from "../helper/ToastNotify";
 import {
   fetchFail,
   fetchStart,
   loginSuccess,
   registerSuccess,
   logoutSuccess,
-} from "../features/authSlice"
-import { useDispatch, useSelector } from "react-redux"
-import { useNavigate } from "react-router-dom"
-import useAxios from "./useAxios"
-
+} from "../features/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import useAxios from "./useAxios";
 
 const useAuthCalls = () => {
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
-  const { axiosToken, axiosPublic } = useAxios()
-  const { token } = useSelector((state) => state.auth)
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { axiosToken, axiosPublic } = useAxios();
+  const { token } = useSelector((state) => state.auth);
   const login = async (userData) => {
-    
-
-    dispatch(fetchStart())
+    dispatch(fetchStart());
     try {
-     
-      const { data } = await axiosPublic.post("/auth/login/", userData)
-      dispatch(loginSuccess(data))
-      toastSuccessNotify("Login işlemi başarılı")
-      navigate("/")
+      const { data } = await axiosPublic.post("/auth/login/", userData);
+      dispatch(loginSuccess(data));
+      toastSuccessNotify("Login işlemi başarılı");
+      navigate("/");
     } catch (error) {
-      dispatch(fetchFail())
-      toastErrorNotify("Login başarısız oldu")
-      console.log(error)
+      dispatch(fetchFail());
+      toastErrorNotify("Login başarısız oldu");
+      console.log(error);
     }
-  }
+  };
 
   const register = async (userInfo) => {
-    dispatch(fetchStart())
+    dispatch(fetchStart());
     try {
-      
-      const { data } = await axiosPublic.post("/users/", userInfo)
-      dispatch(registerSuccess(data))
-      navigate("/blog")
+      const { data } = await axiosPublic.post("/users/", userInfo);
+      dispatch(registerSuccess(data));
+      navigate("/");
     } catch (error) {
-      dispatch(fetchFail())
+      dispatch(fetchFail());
     }
-  }
+  };
   const logout = async () => {
-    dispatch(fetchStart())
+    dispatch(fetchStart());
     try {
-      await axiosToken.get("/auth/logout")
-      dispatch(logoutSuccess())
+      await axiosToken.get("/auth/logout");
+      dispatch(logoutSuccess());
     } catch (error) {
-      dispatch(fetchFail())
+      dispatch(fetchFail());
     }
-  }
+  };
 
-  return { login, register, logout }
-}
+  return { login, register, logout };
+};
 
-export default useAuthCalls
+export default useAuthCalls;

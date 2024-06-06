@@ -1,10 +1,5 @@
-import * as React from "react";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import Typography from "@mui/material/Typography";
-import { btnStyle } from "../../styles/globalStyles";
-import { Button, Stack } from "@mui/material";
+import React from "react";
+import { Card, CardContent, CardMedia, Typography, Button, Stack } from "@mui/material";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -13,8 +8,8 @@ import { useSelector } from "react-redux";
 
 export default function BlogCard({ blog }) {
   const navigate = useNavigate();
-
   const { user } = useSelector((state) => state.auth);
+
   const handleReadMore = () => {
     user ? navigate(`/detail/${blog._id}`) : navigate("/login");
   };
@@ -56,8 +51,7 @@ export default function BlogCard({ blog }) {
           {blog?.content}
         </Typography>
         <Typography variant="body2" color="text.secondary" mt={2}>
-          Published Date :
-          {new Date(blog?.createdAt).toLocaleDateString("tr-TR")}
+          Published Date: {new Date(blog?.createdAt).toLocaleDateString("tr-TR")}
         </Typography>
 
         <Stack
@@ -68,12 +62,12 @@ export default function BlogCard({ blog }) {
           alignItems="center"
           color="text.secondary"
         >
-          <FavoriteBorderIcon sx={btnStyle} />
+          <FavoriteBorderIcon />
           <Stack direction="row" alignItems="center">
-            <ChatBubbleOutlineIcon sx={btnStyle} />
+            <ChatBubbleOutlineIcon />
           </Stack>
-          <VisibilityIcon sx={btnStyle} />
-          <Button sx={{ border: "1px solid" }} onClick={handleReadMore}>
+          <VisibilityIcon />
+          <Button variant="outlined" onClick={handleReadMore}>
             Read More
           </Button>
         </Stack>

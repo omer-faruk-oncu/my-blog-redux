@@ -6,11 +6,11 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-//import { useSelector } from "react-redux";
 import useAuthCalls from "../hooks/useAuthCalls";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import useBlogCalls from "../hooks/useBlogCalls";
+import { Typography } from "@mui/material";
 
 export default function NewBlog() {
   const { categories } = useSelector((state) => state.blog);
@@ -36,9 +36,13 @@ export default function NewBlog() {
   const handleSubmit = (e) => {
     e.preventDefault();
     postBlog("blogs", info);
+    //getBlog("blogs");
     setInfo(initialState)
   };
 
+
+  console.log(categories)
+  console.log(info)
   return (
     <div>
       <Box sx={modalStyle}>
@@ -47,6 +51,10 @@ export default function NewBlog() {
           component={"form"}
           onSubmit={handleSubmit}
         >
+          <Typography variant="h5" color="primary.main">
+            New Blog
+          </Typography>
+          
           <TextField
             label="title"
             name="title"

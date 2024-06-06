@@ -189,8 +189,8 @@ function Navbar() {
               onClose={handleCloseUserMenu}
             >
               {user ? (
-                <>
-                  {settings.map((item) => (
+                settings
+                  .map((item) => (
                     <MenuItem key={item.title} onClick={handleCloseUserMenu}>
                       <NavLink
                         to={item.path}
@@ -199,11 +199,12 @@ function Navbar() {
                         <Typography textAlign="center">{item.title}</Typography>
                       </NavLink>
                     </MenuItem>
-                  ))}
-                  <MenuItem onClick={handleLogout}>
-                    <Typography textAlign="center">Logout</Typography>
-                  </MenuItem>
-                </>
+                  ))
+                  .concat(
+                    <MenuItem onClick={handleLogout} key="Logout">
+                      <Typography textAlign="center">Logout</Typography>
+                    </MenuItem>
+                  )
               ) : (
                 <Button color="inherit" component={NavLink} to="/login">
                   Login

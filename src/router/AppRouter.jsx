@@ -10,6 +10,7 @@ import NewBlog from "../pages/NewBlog";
 import Detail from "../pages/Detail";
 import MyBlog from "../pages/MyBlog";
 import Profile from "../pages/Profile";
+import UpdateModal from "../components/blog/UpdateModal";
 
 const AppRouter = () => {
   return (
