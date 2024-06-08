@@ -6,7 +6,7 @@ import useBlogCalls from "../../hooks/useBlogCalls";
 const UpdateModal = ({ open, handleClose, blog, categories }) => {
   const [info, setInfo] = useState(blog);
   const { putBlog } = useBlogCalls();
-  console.log(info)
+  //console.log(info)
 
   useEffect(() => {
     setInfo(blog);

@@ -1,17 +1,42 @@
-import React from "react";
-import { Card, CardContent, CardMedia, Typography, Button, Stack } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import {
+  Card,
+  CardContent,
+  CardMedia,
+  Typography,
+  Button,
+  Stack,
+  Badge,
+  IconButton,
+} from "@mui/material";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { useNavigate } from "react-router";
 import { useSelector } from "react-redux";
+import useBlogCalls from "../../hooks/useBlogCalls";
 
 export default function BlogCard({ blog }) {
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
+  const { blogs, likes } = useSelector((state) => state.blog);
+  const { getVisitBlog, getLike, postLike, getBlog } = useBlogCalls();
+
+
 
   const handleReadMore = () => {
+    getVisitBlog("blogs", blog._id);
     user ? navigate(`/detail/${blog._id}`) : navigate("/login");
+  };
+
+  const handleLike = async () => {
+    if (user) {
+      await postLike(blog._id);
+      await getBlog("blogs");
+    } else {
+      navigate("/login");
+    }
   };
 
   return (
@@ -51,7 +76,8 @@ export default function BlogCard({ blog }) {
           {blog?.content}
         </Typography>
         <Typography variant="body2" color="text.secondary" mt={2}>
-          Published Date: {new Date(blog?.createdAt).toLocaleDateString("tr-TR")}
+          Published Date:{" "}
+          {new Date(blog?.createdAt).toLocaleDateString("tr-TR")}
         </Typography>
 
         <Stack
@@ -62,11 +88,23 @@ export default function BlogCard({ blog }) {
           alignItems="center"
           color="text.secondary"
         >
-          <FavoriteBorderIcon />
+          <Badge badgeContent={blog?.likes.length} color="primary">
+            <FavoriteBorderIcon
+              onClick={handleLike}
+              sx={{
+                cursor: "pointer",
+                //color: likes?.didUserLike ? "red" : "gray",
+              }}
+            />
+          </Badge>
           <Stack direction="row" alignItems="center">
-            <ChatBubbleOutlineIcon />
+            <Badge badgeContent={blog?.comments.length} color="primary">
+              <ChatBubbleOutlineIcon />
+            </Badge>
           </Stack>
-          <VisibilityIcon />
+          <Badge badgeContent={blog?.countOfVisitors} color="primary">
+            <VisibilityIcon />
+          </Badge>
           <Button variant="outlined" onClick={handleReadMore}>
             Read More
           </Button>
