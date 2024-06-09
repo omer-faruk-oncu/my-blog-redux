@@ -1,5 +1,9 @@
 
-https://my-blog-oncu.netlify.app
+
+
+![my-blog](https://github.com/omer-faruk-oncu/my-blog-redux/assets/154313389/260fd48d-9049-4342-97bf-aad95bcd3d07)
+
+# https://my-blog-oncu.netlify.app
 
 # Getting Started with Create React App
 
