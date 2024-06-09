@@ -22,22 +22,24 @@ import CommentForm from "../components/blog/CommentForm";
 const Detail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { getBlog, deleteBlog, getBlogComments, getSingleBlog } = useBlogCalls();
-  const { blogs, categories, comments, singleBlog } = useSelector((state) => state.blog);
+  const { getBlog, deleteBlog, getBlogComments, getSingleBlog } =
+    useBlogCalls();
+  const { blogs, categories, comments, singleBlog } = useSelector(
+    (state) => state.blog
+  );
   const { user } = useSelector((state) => state.auth);
   const [selectedBlog, setSelectedBlog] = useState(null);
   const [open, setOpen] = useState(false);
   const [showCommetForm, setShowCommentForm] = useState(false);
 
-  console.log(blogs)
-
+  console.log(blogs);
 
   useEffect(() => {
     getSingleBlog(id);
     getBlog("categories");
     const blog = blogs.find((blog) => blog._id === id);
     setSelectedBlog(blog);
-   getBlogComments()
+    getBlogComments();
   }, []);
 
   const handleUpdate = () => {
@@ -80,9 +82,14 @@ const Detail = () => {
             </Stack>
 
             <Stack direction="row" gap={2} alignItems="center" mt={5}>
-              <Avatar />
+             
+              <Avatar>
+                {singleBlog?.userId?.username.slice(0, 1).toUpperCase()}
+              </Avatar>
               <Box textAlign="center">
-                <Typography variant="body1">{singleBlog?.userId?.username}</Typography>
+                <Typography variant="body1">
+                  {singleBlog?.userId?.username}
+                </Typography>
                 <Typography variant="body2" color="text.secondary">
                   {new Date(selectedBlog.createdAt).toLocaleDateString("tr-TR")}
                 </Typography>
@@ -153,7 +160,7 @@ const Detail = () => {
             {showCommetForm && <CommentForm blogId={selectedBlog._id} />}
 
             <Box mt={3}>
-            {comments
+              {comments
                 .filter((comment) => comment.blogId === selectedBlog._id)
                 .map((comment, index) => (
                   <CommentCard key={index} comment={comment} />
@@ -167,4 +174,3 @@ const Detail = () => {
 };
 
 export default Detail;
-

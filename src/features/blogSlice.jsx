@@ -58,7 +58,7 @@ export const {
   getCommentsSuccess,
   updateBlogLikes,
   getCategoriesSuccess,
-  getSingleBlogSuccess
+  getSingleBlogSuccess,
 } = blogSlice.actions;
 
 export default blogSlice.reducer;

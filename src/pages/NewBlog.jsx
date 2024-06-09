@@ -6,14 +6,15 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import useAuthCalls from "../hooks/useAuthCalls";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import useBlogCalls from "../hooks/useBlogCalls";
-import { Typography } from "@mui/material";
+import { Dialog, Typography } from "@mui/material";
 
 export default function NewBlog() {
   const { categories } = useSelector((state) => state.blog);
+  const { postBlog, getBlog } = useBlogCalls();
+  
   const initialState = {
     title: "",
     image: "",
@@ -21,14 +22,18 @@ export default function NewBlog() {
     isPublished: false,
     content: "",
   };
-
+  
   const [info, setInfo] = useState(initialState);
-  const { postBlog, getBlog } = useBlogCalls();
+
+ const [open, setOpen] = useState(true);
 
   useEffect(() => {
     getBlog("categories"); 
   }, []);
 
+   const handleClose = () => {
+     setOpen(false);
+   };
   const handleChange = (e) => {
     setInfo({ ...info, [e.target.name]: e.target.value });
   };
@@ -36,15 +41,12 @@ export default function NewBlog() {
   const handleSubmit = (e) => {
     e.preventDefault();
     postBlog("blogs", info);
-    //getBlog("blogs");
     setInfo(initialState)
+    handleClose();
   };
 
-
-  console.log(categories)
-  console.log(info)
   return (
-    <div>
+    <Box open={open} onClose={handleClose} aria-labelledby="new-blog-form-dialog">
       <Box sx={modalStyle}>
         <Box
           sx={{ display: "flex", flexDirection: "column", gap: 2 }}
@@ -128,6 +130,6 @@ export default function NewBlog() {
           </Button>
         </Box>
       </Box>
-    </div>
+    </Box>
   );
 }

@@ -1,12 +1,10 @@
 import { Box, Button, TextField } from "@mui/material";
 import React, { useState } from "react";
 import useBlogCalls from "../../hooks/useBlogCalls";
-import { useSelector } from "react-redux";
 
 const CommentForm = ({ blogId }) => {
   const { addComment, getBlogComments } = useBlogCalls();
   const [comment, setComment] = useState("");
-  const { user } = useSelector((state) => state.auth);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -14,7 +12,6 @@ const CommentForm = ({ blogId }) => {
       const newComment = {
         blogId,
         comment,
-        //userId: user._id,
       };
       await addComment(newComment);
       await getBlogComments(blogId);

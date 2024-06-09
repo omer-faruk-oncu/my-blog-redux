@@ -3,7 +3,7 @@ import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import LockIcon from "@mui/icons-material/Lock";
-import image from "../assets/result.svg";
+import image from "../assets/blog-img.jpg";
 import { Link } from "react-router-dom";
 import Box from "@mui/material/Box";
 import { Formik } from "formik";
@@ -62,7 +62,7 @@ const Login = () => {
         </Grid>
         <Grid item xs={10} sm={7} md={6}>
           <Container>
-            <img src={image} alt="img" width={400}/>
+            <img src={image} alt="img" width={400} style={{ borderRadius: '10px' }}/>
           </Container>
         </Grid>
       </Grid>

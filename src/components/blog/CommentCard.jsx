@@ -1,8 +1,7 @@
-import * as React from "react";
 import { Card, CardContent, Typography } from "@mui/material";
 
 const CommentCard = ({ comment }) => {
-  //console.log(comment)
+  
   return (
     <Card>
       <CardContent>

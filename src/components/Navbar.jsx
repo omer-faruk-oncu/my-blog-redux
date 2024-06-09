@@ -11,7 +11,7 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import logo from "../assets/blog-image.png";
+import logo from "../assets/blog logo.png";
 import useAuthCalls from "../hooks/useAuthCalls";
 import { useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
@@ -219,3 +219,6 @@ function Navbar() {
 }
 
 export default Navbar;
+
+
+

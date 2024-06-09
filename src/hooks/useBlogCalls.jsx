@@ -1,18 +1,17 @@
 import { useDispatch, useSelector } from "react-redux";
 import useAxios from "./useAxios";
 import {
-  addCommentSuccess,
   fetchFail,
   fetchStart,
   getBlogSuccess,
   getCommentsSuccess,
   getSingleBlogSuccess,
-  updateBlogLikes
+  updateBlogLikes,
 } from "../features/blogSlice";
 import { toastErrorNotify, toastSuccessNotify } from "../helper/ToastNotify";
 
 const useBlogCalls = () => {
-  const { axiosToken } = useAxios();
+  const { axiosToken, axiosPublic } = useAxios();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   //const { blogs } = useSelector((state) => state.blog);
@@ -84,13 +83,13 @@ const useBlogCalls = () => {
   };
 
   const addComment = async (info) => {
-    dispatch(fetchStart()); 
+    dispatch(fetchStart());
     try {
       await axiosToken.post(`/comments/`, info);
       toastSuccessNotify("Comment added successfully.");
-      await getBlogComments()
+      await getBlogComments();
     } catch (error) {
-      console.log(error); 
+      console.log(error);
       dispatch(fetchFail());
       toastErrorNotify("Failed to add comment.");
     }
@@ -133,7 +132,6 @@ const useBlogCalls = () => {
     }
   };
 
-  
   const postLike = async (id) => {
     dispatch(fetchStart());
     try {
@@ -160,9 +158,6 @@ const useBlogCalls = () => {
     }
   };
 
-
-
-
   return {
     getBlog,
     deleteBlog,
@@ -174,7 +169,7 @@ const useBlogCalls = () => {
     getVisitBlog,
     postLike,
     getLike,
-    getSingleBlog
+    getSingleBlog,
   };
 };
 

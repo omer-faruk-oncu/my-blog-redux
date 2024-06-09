@@ -6,7 +6,7 @@ import {
   registerSuccess,
   logoutSuccess,
 } from "../features/authSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch} from "react-redux";
 import { useNavigate } from "react-router-dom";
 import useAxios from "./useAxios";
 
@@ -14,7 +14,6 @@ const useAuthCalls = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { axiosToken, axiosPublic } = useAxios();
-  const { token } = useSelector((state) => state.auth);
   const login = async (userData) => {
     dispatch(fetchStart());
     try {

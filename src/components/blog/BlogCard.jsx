@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   Card,
   CardContent,
@@ -7,29 +7,23 @@ import {
   Button,
   Stack,
   Badge,
-  IconButton,
 } from "@mui/material";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import FavoriteIcon from "@mui/icons-material/Favorite";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { useNavigate } from "react-router";
 import { useSelector } from "react-redux";
 import useBlogCalls from "../../hooks/useBlogCalls";
-
 export default function BlogCard({ blog }) {
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
-  const { blogs, likes } = useSelector((state) => state.blog);
-  const { getVisitBlog, getLike, postLike, getBlog } = useBlogCalls();
 
 
-
+  const { getVisitBlog, postLike, getBlog } = useBlogCalls();
   const handleReadMore = () => {
     getVisitBlog("blogs", blog._id);
     user ? navigate(`/detail/${blog._id}`) : navigate("/login");
   };
-
   const handleLike = async () => {
     if (user) {
       await postLike(blog._id);
@@ -93,7 +87,6 @@ export default function BlogCard({ blog }) {
               onClick={handleLike}
               sx={{
                 cursor: "pointer",
-                //color: likes?.didUserLike ? "red" : "gray",
               }}
             />
           </Badge>

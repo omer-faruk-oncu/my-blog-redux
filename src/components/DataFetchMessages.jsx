@@ -26,8 +26,6 @@ export const CardSkeleton = ({ children }) => {
   )
 }
 
-
-
 const TableSkeleton = () => {
   return (
     <Stack spacing={1} sx={{ mt: 3 }}>

@@ -4,10 +4,9 @@ import { useSelector } from "react-redux";
 import { Button, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-import TableSkeleton, {
+import {
   CardSkeleton,
   ErrorMessage,
-  NoDataMessage,
 } from "../components/DataFetchMessages";
 import useBlogCalls from "../hooks/useBlogCalls";
 import BlogCard from "../components/blog/BlogCard";
@@ -15,7 +14,6 @@ import BlogCard from "../components/blog/BlogCard";
 const MyBlog = () => {
   const { getUserBlogs } = useBlogCalls();
   const { blogs, loading, error } = useSelector((state) => state.blog);
-  const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -23,7 +21,6 @@ const MyBlog = () => {
   useEffect(() => {
     getUserBlogs("blogs");
   }, []);
-
 
   const handleWriteBlog = () => {
     navigate("/newblog");

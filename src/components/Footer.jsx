@@ -9,7 +9,7 @@ function Footer() {
         width: '100%',
         textAlign: 'center',
         bgcolor: 'background.paper',
-        py: 2,
+        py: 10,
       }}
     >
       <Typography variant="h6" color="primary.main">
